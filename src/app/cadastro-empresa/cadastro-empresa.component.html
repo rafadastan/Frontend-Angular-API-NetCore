@@ -1,3 +1,17 @@
+<div class="alert alert-success alert-dismissible fade show" role="alert" [hidden]="!mensagemSucesso">
+    <strong>{{mensagemSucesso}}</strong>
+    <button type="button" class="close" aria-label="Close" (click)="fecharMensagens()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert" [hidden]="!mensagemErro">
+    <strong>{{mensagemErro}}</strong>
+    <button type="button" class="close" aria-label="Close" (click)="fecharMensagens()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <h5>Cadastro de Empresas</h5>
 
 <div class="row">
@@ -7,23 +21,26 @@
 
             <div class="form-group">
                 <label>Razão Social:</label>
-                <input type="text" class="form-control"
-                       name="razaoSocial" ngModel
-                       placeholder="Digite aqui"/>
+                <input type="text" class="form-control" name="razaoSocial" ngModel placeholder="Digite aqui" />
+                <div class="text-danger" *ngFor="let message of errosRazaoSocial">
+                    {{message}}
+                </div>
             </div>
 
             <div class="form-group">
                 <label>Nome Fantasia:</label>
-                <input type="text" class="form-control"
-                       name="nomeFantasia" ngModel
-                       placeholder="Digite aqui"/>
+                <input type="text" class="form-control" name="nomeFantasia" ngModel placeholder="Digite aqui" />
+                <div class="text-danger" *ngFor="let message of errosNomeFantasia">
+                    {{message}}
+                </div>
             </div>
 
             <div class="form-group">
                 <label>CNPJ</label>
-                <input type="text" class="form-control"
-                       name="cnpj" ngModel
-                       placeholder="Digite aqui"/>
+                <input type="text" class="form-control" name="cnpj" ngModel placeholder="Digite aqui" />
+                <div class="text-danger" *ngFor="let message of errosCnpj">
+                    {{message}}
+                </div>
             </div>
 
             <div class="form-group">
