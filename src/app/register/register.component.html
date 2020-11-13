@@ -1,0 +1,68 @@
+<div class="card" style="width: 24rem;">
+    <h5 class="card-header">Cadastro de conta de usuário</h5>
+    <div class="card-body">
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert" [hidden]="!mensagemSucesso">
+            <strong>{{mensagemSucesso}}</strong>
+            <button type="button" class="close" aria-label="Close" (click)="fecharAlertas()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" [hidden]="!mensagemErro">
+            <strong>{{mensagemErro}}</strong>
+            <button type="button" class="close" aria-label="Close" (click)="fecharAlertas()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <form #formRegister="ngForm" (submit)="cadastrarUsuario(formRegister)">
+
+            <div class="form-group">
+                <label>Nome do Usuário:</label>
+                <input type="text" class="form-control" placeholder="Digite aqui" autocomplete="off" name="nome"
+                    ngModel />
+                <div class="text-danger" *ngFor="let message of errosNome">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email de Acesso:</label>
+                <input type="text" class="form-control" placeholder="Digite aqui" autocomplete="off" name="email"
+                    ngModel />
+                <div class="text-danger" *ngFor="let message of errosEmail">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Senha:</label>
+                <input type="password" class="form-control" placeholder="Digite aqui" autocomplete="off" name="senha"
+                    ngModel />
+                <div class="text-danger" *ngFor="let message of errosSenha">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Confirme sua Senha:</label>
+                <input type="password" class="form-control" placeholder="Digite aqui" autocomplete="off"
+                    name="senhaConfirmacao" ngModel />
+                <div class="text-danger" *ngFor="let message of errosSenhaConfirmacao">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Realizar Cadastro" class="btn btn-success" />
+            </div>
+
+            <div class="form-group">
+                <a href="/">Voltar</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
