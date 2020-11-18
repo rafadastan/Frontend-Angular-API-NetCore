@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import * as auth from '../../utils/authenticationUtils';
 
 @Component({
   selector: 'app-login',
@@ -10,13 +11,22 @@ import { environment } from '../../environments/environment';
 export class LoginComponent implements OnInit {
 
   mensagemErro: string;
+  exibirPainel = false;
 
   errosEmail = [];
   errosSenha = [];
 
   constructor(private httpClient: HttpClient) { }
 
+  //método executado quando o componente é carregado
   ngOnInit(): void {
+
+    if (auth.isAuthenticated()) {
+      auth.redirectToAdminPage();
+    }
+    else {
+      this.exibirPainel = true;
+    }
   }
 
   //função para realizar a chamada para cadastro de usuário na API..
@@ -31,10 +41,9 @@ export class LoginComponent implements OnInit {
         (data: any) => { //retorno de sucesso da API
           this.fecharAlertas();
 
-          window.localStorage.setItem('usuario', JSON.stringify(data.usuario));
-          window.localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
+          auth.signIn(data.usuario, data.accessToken);
+          auth.redirectToAdminPage();
 
-          window.location.href = '/admin';
         },
         (e: any) => { //recuperando o promisse de erro..
           this.fecharAlertas();

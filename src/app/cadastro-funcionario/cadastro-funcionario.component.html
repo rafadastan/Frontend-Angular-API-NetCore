@@ -1,1 +1,105 @@
-<p>cadastro-funcionario works!</p>
+<div class="alert alert-success alert-dismissible fade show" role="alert" [hidden]="!mensagemSucesso">
+    <strong>{{mensagemSucesso}}</strong>
+    <button type="button" class="close" aria-label="Close" (click)="fecharMensagens()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert" [hidden]="!mensagemErro">
+    <strong>{{mensagemErro}}</strong>
+    <button type="button" class="close" aria-label="Close" (click)="fecharMensagens()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<h5>Cadastro de Funcionário</h5>
+
+<form #formCadastro="ngForm" (submit)="cadastrarFuncionario(formCadastro)">
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <label>Nome do Funcionário:</label>
+                <input type="text" class="form-control" name="nome" ngModel placeholder="Digite aqui" />
+                <div class="text-danger" *ngFor="let message of errosNome">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Sexo:</label>
+                <select class="form-control" name="sexo" ngModel>
+                    <option value="">Selecione uma opção</option>
+                    <option value="F">Feminino</option>
+                    <option value="M">Masculino</option>
+                </select>
+                <div class="text-danger" *ngFor="let message of errosSexo">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Data de Nascimento:</label>
+                <input type="date" class="form-control" name="dataNascimento" ngModel />
+                <div class="text-danger" *ngFor="let message of errosDataNascimento">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>CPF:</label>
+                <input type="text" class="form-control" name="cpf" ngModel placeholder="Digite aqui"/>
+                <div class="text-danger" *ngFor="let message of errosCpf">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-success">
+                    Cadastrar Funcionário
+                </button>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <label>Data de Admissão:</label>
+                <input type="date" class="form-control" name="dataAdmissao" ngModel />
+                <div class="text-danger" *ngFor="let message of errosDataAdmissao">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Situação:</label>
+                <select class="form-control" name="situacao" ngModel>
+                    <option value="">Selecione uma opção</option>
+                    <option value="1">Admitido</option>
+                    <option value="2">Demitido</option>
+                    <option value="3">Férias</option>
+                    <option value="4">Afastado</option>
+                </select>
+                <div class="text-danger" *ngFor="let message of errosSituacao">
+                    {{message}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Empresa:</label>
+                <select class="form-control" name="empresaId" ngModel>
+                    <option value="">Selecione uma opção</option>
+                    <option *ngFor="let item of listagemEmpresas" value="{{item.id}}">
+                        {{item.nomeFantasia}}
+                    </option>
+                </select>
+                <div class="text-danger" *ngFor="let message of errosEmpresaId">
+                    {{message}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>

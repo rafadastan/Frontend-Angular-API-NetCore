@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import * as auth from '../../utils/authenticationUtils';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,7 @@ export class RegisterComponent implements OnInit {
 
   mensagemSucesso: string;
   mensagemErro: string;
+  exibirPainel = false;
 
   errosNome = [];
   errosEmail = [];
@@ -20,6 +22,14 @@ export class RegisterComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
+
+    if (auth.isAuthenticated()) {
+      auth.redirectToAdminPage();
+    }
+    else {
+      this.exibirPainel = true;
+    }
+
   }
 
   //função para realizar a chamada para cadastro de usuário na API..
@@ -45,15 +55,15 @@ export class RegisterComponent implements OnInit {
         (e: any) => { //recuperando o promisse de erro..
           this.fecharAlertas();
           //verificar o status do erro obtido (400, 550, etc..)
-          switch (e.status) {   
+          switch (e.status) {
             case 400:
-              
+
               this.errosNome = e.error.errors.Nome;
               this.errosEmail = e.error.errors.Email;
               this.errosSenha = e.error.errors.Senha;
               this.errosSenhaConfirmacao = e.error.errors.SenhaConfirmacao;
 
-              break;       
+              break;
             case 500:
               this.mensagemErro = e.error.message;
               break;

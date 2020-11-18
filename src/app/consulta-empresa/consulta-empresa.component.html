@@ -5,6 +5,13 @@
     </button>
 </div>
 
+<div class="alert alert-danger alert-dismissible fade show" role="alert" [hidden]="!mensagemErroExclusao">
+    <strong>{{mensagemErroExclusao}}</strong>
+    <button type="button" class="close" aria-label="Close" (click)="fecharMensagens()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <h5>Consulta de Empresas</h5>
 <br />
 

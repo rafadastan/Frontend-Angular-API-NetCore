@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as auth from '../utils/authenticationUtils';
 
 @Component({
   selector: 'app-root',
@@ -8,24 +9,21 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 
   usuarioAutenticado = false;
-  accessToken = {
-    bearerToken : ''
+  dadosUsuario = {
+    id: '', nome: '', email: '', dataCriacao: ''
   }
 
   ngOnInit(): void {
-    
-    //verificar se existe um token de acesso na localstorage
-    this.accessToken = JSON.parse(window.localStorage.getItem('accessToken'));
-    this.usuarioAutenticado = this.accessToken.bearerToken != "";
-
+    this.usuarioAutenticado = auth.isAuthenticated();
+    if (this.usuarioAutenticado) {
+      this.dadosUsuario = auth.getUserData();
+    }
   }
 
-  logout() : void {
-    if(window.confirm('Deseja encerrar sua sessão?')){
-      window.localStorage.removeItem('usuario');
-      window.localStorage.removeItem('accessToken');
-
-      window.location.href = "/";
+  logout(): void {
+    if (window.confirm('Deseja encerrar sua sessão?')) {
+      auth.signOut();
+      auth.redirectToLoginPage();
     }
   }
 

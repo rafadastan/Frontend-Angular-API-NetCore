@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import * as http from '../../utils/httpUtils';
 
 @Component({
   selector: 'app-cadastro-empresa',
@@ -33,9 +34,13 @@ export class CadastroEmpresaComponent implements OnInit {
     this.errosCnpj = [];
     
     //realizando uma chamada HTTP POST para a API..
-    this.httpClient.post(environment.apiEndpoint + '/empresas', formCadastro.form.value)
+    this.httpClient.post(environment.apiEndpoint + '/empresas', formCadastro.form.value, 
+      { headers : http.getHttpHeaders() })
       .subscribe( //recuperando o promisse da chamada..
         (data:any) => { //retorno de sucesso da API
+
+          this.fecharMensagens();
+
           //exibir a mensagem de sucesso obtida da API
           this.mensagemSucesso = data.message;
           //limpar os campos do formulário

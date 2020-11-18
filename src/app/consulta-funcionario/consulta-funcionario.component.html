@@ -1,1 +1,49 @@
-<p>consulta-funcionario works!</p>
+<h5>Consulta de Funcionários</h5>
+<br />
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nome do Funcionário</th>
+                <th>Sexo</th>
+                <th>Data de Nascimento</th>
+                <th>Data de Admissão</th>
+                <th>Situação</th>
+                <th>Empresa</th>
+                <th width="160">Operações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let funcionario of listagemFuncionarios">
+                <td width="200">
+                    {{funcionario.nome}} <br/>
+                    CPF: {{funcionario.cpf}}
+                </td>
+                <td>{{funcionario.sexo}}</td>
+                <td>{{funcionario.dataNascimento | date : 'dd/MM/yyyy'}}</td>
+                <td>{{funcionario.dataAdmissao | date : 'dd/MM/yyyy'}}</td>
+                <td>{{funcionario.situacao}}</td>
+                <td>
+                    {{funcionario.empresa.nomeFantasia}} <br/>
+                    <small>CNPJ: {{funcionario.empresa.cnpj}}</small>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm mr-1">
+                        Atualizar
+                    </button>
+                    <button class="btn btn-danger btn-sm">
+                        Excluir
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7">
+                    Quantidade de funcionários: {{listagemFuncionarios.length}}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

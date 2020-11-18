@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import * as http from '../../utils/httpUtils';
 
 @Component({
   selector: 'app-consulta-empresa',
@@ -16,6 +17,8 @@ export class ConsultaEmpresaComponent implements OnInit {
   errosNomeFantasia = []; //erros de validação
 
   mensagemSucessoExclusao: string;
+  mensagemErroExclusao: string;
+
   mensagemSucessoEdicao: string;
 
   //declarando e inicializando o httpClient
@@ -30,7 +33,8 @@ export class ConsultaEmpresaComponent implements OnInit {
   consultarEmpresas(): void {
 
     //executando uma requisição GET para a API..
-    this.httpClient.get(environment.apiEndpoint + "/empresas")
+    this.httpClient.get(environment.apiEndpoint + "/empresas",
+      { headers: http.getHttpHeaders() })
       .subscribe(
         (data: any[]) => {
           //armazenando o resultado obtido no atributo
@@ -47,7 +51,8 @@ export class ConsultaEmpresaComponent implements OnInit {
 
     if (window.confirm('Deseja realmente excluir a empresa selecionada?')) {
       //requisição de exclusão para a API..
-      this.httpClient.delete(environment.apiEndpoint + "/empresas/" + id)
+      this.httpClient.delete(environment.apiEndpoint + "/empresas/" + id,
+        { headers: http.getHttpHeaders() })
         .subscribe(
           (data: any) => {
             //capturando a mensagem de sucesso retornada pela API..
@@ -56,7 +61,12 @@ export class ConsultaEmpresaComponent implements OnInit {
             this.consultarEmpresas();
           },
           (e: any) => {
-            console.log(e);
+            //verificar o status do erro obtido (400, 550, etc..)
+            switch (e.status) {
+              case 500:
+                this.mensagemErroExclusao = e.error.message;
+                break;
+            }
           }
         );
     }
@@ -70,7 +80,8 @@ export class ConsultaEmpresaComponent implements OnInit {
     this.errosNomeFantasia = [];
 
     //requisição na API para consultar 1 empresa baseado no id
-    this.httpClient.get(environment.apiEndpoint + "/empresas/" + id)
+    this.httpClient.get(environment.apiEndpoint + "/empresas/" + id,
+      { headers: http.getHttpHeaders() })
       .subscribe(
         (data: any) => {
           this.empresaEdicao = data;
@@ -89,7 +100,8 @@ export class ConsultaEmpresaComponent implements OnInit {
     this.errosNomeFantasia = [];
 
     //realizando uma chamada HTTP POST para a API..
-    this.httpClient.put(environment.apiEndpoint + '/empresas', formEdicao.form.value)
+    this.httpClient.put(environment.apiEndpoint + '/empresas', formEdicao.form.value,
+      { headers: http.getHttpHeaders() })
       .subscribe( //recuperando o promisse da chamada..
         (data: any) => { //retorno de sucesso da API
 
@@ -120,6 +132,7 @@ export class ConsultaEmpresaComponent implements OnInit {
   fecharMensagens(): void {
     this.mensagemSucessoExclusao = "";
     this.mensagemSucessoEdicao = "";
+    this.mensagemErroExclusao = "";
   }
 
 }

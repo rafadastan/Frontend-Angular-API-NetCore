@@ -31,8 +31,12 @@
         </div>
       </li>
     </ul>
+    <div class="mr-4">
+      <div class="text-white">{{dadosUsuario.nome}}</div>
+      <div class="text-white"><small>{{dadosUsuario.email}}</small></div>
+    </div>
     <div>
-      <button class="btn btn-secondary btn-sm" (click)="logout()">
+      <button class="btn btn-secondary" (click)="logout()">
         Sair do Sistema
       </button>
     </div>
